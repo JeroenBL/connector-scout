@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://connectorx/schemas/report.schema.json",
+  "title": "ConnectorX scout report frontmatter",
+  "description": "YAML frontmatter at the top of reports/<target>-feasibility.md. Written by scout.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["target", "spec", "specSha256", "reportDate", "verdict", "confidence"],
+  "properties": {
+    "target": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"
+    },
+    "spec": {
+      "description": "The spec that was researched: a path under specs/ or a public documentation URL.",
+      "type": "string",
+      "minLength": 1
+    },
+    "specSha256": {
+      "description": "SHA-256 of the spec file, lowercase hex. null when the spec is a URL.",
+      "oneOf": [
+        { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        { "type": "null" }
+      ]
+    },
+    "reportDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "verdict": {
+      "enum": ["feasible", "feasible-with-caveats", "not-feasible", "insufficient-information"]
+    },
+    "confidence": {
+      "enum": ["high", "medium", "low"]
+    }
+  }
+}
